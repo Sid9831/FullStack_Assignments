@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+<div class="row" style="margin-top: 20px;">
+    <form (ngSubmit)="onSignIn()" #loginForm="ngForm" class="col s6 offset-s3 z-depth-4">
+        <h1>Sign In</h1>
+      <div class="row">
+        <div class="input-field col s12">
+          Email:
+          <input id="email" type="email" placeholder="Enter Email here" class="validate" required [(ngModel)]="loginData.email" name="email" #email="ngModel">
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="red-text">
+            <div *ngIf="email.errors?.['required']">Email is required.</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          Password:
+          <input id="password" placeholder="Enter password here" type="password" class="validate" required [(ngModel)]="loginData.password" name="password" #password="ngModel">
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="red-text">
+            <div *ngIf="password.errors?.['required']">Password is required.</div>
+        </div>
+        </div>
+      </div>
+      <div class="row"> 
+        <div class="input-field col s12 ">
+            <button class="btn MyBtn left" type="submit" [disabled]="!loginForm.form.valid">Sign In</button>
+        </div>
+    </div>
+    <flash-messages></flash-messages>
+    </form>
+  </div>

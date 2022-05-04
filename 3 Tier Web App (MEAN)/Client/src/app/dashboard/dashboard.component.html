@@ -1,0 +1,97 @@
+<button style="margin-top: 20px;" type="button" mdbBtn color="default" rounded="true" data-toggle="modal"
+  data-target="#basicExample" (click)="frame.show()" mdbWavesEffect>Create Ticket</button>
+
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="row">
+    <form class="col s12" #ticketform="ngForm" (ngSubmit)="TicketForm(ticketform);frame.hide();">
+      <h1 style="text-align: center; margin-top: 20px;">Add ticket</h1>
+      <div class="row">
+        <div class="input-field col s6 offset-s3">
+          <input placeholder="ID goes here" name="_id" [(ngModel)]="Ticket._id" id="_id" type="hidden">
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6 offset-s3">
+          Title
+          <input placeholder="Enter title here" id="title" type="text" [(ngModel)]="Ticket.title" name="title"
+            class="validate" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6 offset-s3">
+          Ticket Description:
+          <textarea id="textarea1" name="description" [(ngModel)]="Ticket.description"
+            placeholder="Enter description here" class="materialize-textarea" required></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6 offset-s3">
+          <button class="btn MyBtn left" type="submit">Create</button>
+          <button type="button" class="btn" (click)="ticketform.reset();frame.hide()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<h1 style="margin: 20px 0px 20px 10px;">All Tickets</h1>
+<hr />
+<div class="mat-elevation-z8">
+  <mat-form-field appearance="standard" style="margin-left: 20px;">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+  </mat-form-field>
+  <table mat-table [dataSource]="allTickets">
+
+    <ng-container matColumnDef="ticket_id">
+      <th mat-header-cell *matHeaderCellDef> From </th>
+      <td mat-cell *matCellDef="let element"> {{element.ticket_id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ticket_sub">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let element"> {{element.ticket_sub}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ticket_desc">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.ticket_desc}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="created_at">
+      <th mat-header-cell *matHeaderCellDef> Created </th>
+      <td mat-cell *matCellDef="let element"> {{element.created_at}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="updated_at">
+      <th mat-header-cell *matHeaderCellDef> Updated </th>
+      <td mat-cell *matCellDef="let element"> {{element.updated_at}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="deleted_at">
+      <th mat-header-cell *matHeaderCellDef> Deleted </th>
+      <td mat-cell *matCellDef="let element"> {{element.deleted_at}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Edit">
+      <th mat-header-cell *matHeaderCellDef> Edit </th>
+      <td mat-cell *matCellDef="let element"><button
+          [disabled]="!(signinService.user.email === element.ticket_id) || !(element.deleted_at === '')"
+          (click)="onEditClick(element);frame.show()" mat-raised-button color="primary">Edit</button></td>
+    </ng-container>
+
+    <ng-container matColumnDef="Delete">
+      <th mat-header-cell *matHeaderCellDef> Delete </th>
+      <td mat-cell *matCellDef="let element"><button
+          [disabled]="!(signinService.user.email === element.ticket_id) || !(element.deleted_at === '')"
+          (click)="onDeleteClick(element._id)" mat-raised-button color="warn">Delete</button></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>

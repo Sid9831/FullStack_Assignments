@@ -1,0 +1,63 @@
+<head>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</head>
+<body>
+    
+
+<div class="row" style="margin-top: 20px;">
+    <form (ngSubmit)="onSignUp()" #registerForm="ngForm" class="col s6 offset-s3 z-depth-4">
+        <h1>Sign Up</h1>
+        <div class="row">
+            <div class="input-field col s12">
+                Name:
+                <input id="name" placeholder="Enter name here" type="text" class="validate" required minlength="8" [(ngModel)]="user.name" name="name"
+                    #name="ngModel">
+            </div>
+            <div style="margin-left: 10px;" *ngIf="name.invalid && (name.dirty || name.touched)" class="red-text">
+                <div *ngIf="name.errors?.['required']">Name is required.</div>
+                <div *ngIf="name.errors?.['minlength']">
+                    Name must be at least 8 characters long.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                Email:
+                <input id="email" placeholder="Enter email here" type="email" class="validate" email required [(ngModel)]="user.email" name="email"
+                    #email="ngModel">
+            </div>
+            <div style="margin-left: 10px;" *ngIf="email.invalid && (email.dirty || email.touched)" class="red-text">
+                <div *ngIf="email.errors?.['required']">Email address is required.</div>
+                <div *ngIf="email.errors?.['email']">
+                    It is not a valid email address format.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                Password:
+                <input id="password" placeholder="Enter password here" type="password" class="validate" required
+                    pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" name="password"
+                    #password="ngModel" [(ngModel)]="user.password">
+                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="red-text">
+                    <div *ngIf="password.errors?.['required']">Password is required.</div>
+                    <div *ngIf="password.errors?.['pattern']">
+                        Password shall contain an uppercase, a lowercase and one numerical
+                        or special characters. Length must be minimum 8 characters.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12 ">
+                <button class="btn MyBtn left" type="submit" [disabled]="!registerForm.form.valid">Sign Up</button>
+            </div>
+        </div>
+        <flash-messages></flash-messages>
+    </form>
+</div>
+
+</body>
